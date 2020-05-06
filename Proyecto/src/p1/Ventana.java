@@ -1,6 +1,13 @@
 package p1;
 
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
+import p2.Principal2;
+import inter.Principal3;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -9,11 +16,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import javax.swing.*;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 /**
  *
  * @author Usuario
@@ -22,9 +24,8 @@ public class Ventana extends JFrame
 {
 
     public JPanel panel;
-    static String grupo, emisor, receptor;
+    public static String grupo, emisor, receptor, fecha;
     public static Multilista m = new Multilista();
-
     public Ventana()
     {
         setTitle("Agenda");                         //Titulo de la ventana
@@ -42,8 +43,9 @@ public class Ventana extends JFrame
         datos();
         paneles();
         etiquetas();
-        boton();
         comboBox();
+        botonFiltrar("");
+        botonEjecutar("","");
 //        textArea("");
         mostrarDatos();
     }
@@ -54,20 +56,20 @@ public class Ventana extends JFrame
         m.agregarNodoPadre("CONOCIDOS");
         m.agregarNodoPadre("FAMILIA");
 
-        m.agregarNodoHijo("AMIGOS", "A", "1");
-        m.agregarNodoHijo("AMIGOS", "B", "2");
-        m.agregarNodoHijo("AMIGOS", "C", "3");
-        m.agregarNodoHijo("AMIGOS", "D", "4");
+        m.agregarNodoHijo("AMIGOS", "A", "Luis");
+        m.agregarNodoHijo("AMIGOS", "B", "Arturo");
+        m.agregarNodoHijo("AMIGOS", "C", "Diaz");
+        m.agregarNodoHijo("AMIGOS", "D", "Hinojosa");
 
-        m.agregarNodoHijo("FAMILIA", "E", "5");
-        m.agregarNodoHijo("FAMILIA", "F", "6");
-        m.agregarNodoHijo("FAMILIA", "G", "7");
-        m.agregarNodoHijo("FAMILIA", "H", "8");
+        m.agregarNodoHijo("FAMILIA", "E", "LUIS");
+        m.agregarNodoHijo("FAMILIA", "F", "ARTURO");
+        m.agregarNodoHijo("FAMILIA", "G", "DIAZ");
+        m.agregarNodoHijo("FAMILIA", "H", "HINOJOSA");
 
-        m.agregarNodoHijo("CONOCIDOS", "I", "9");
-        m.agregarNodoHijo("CONOCIDOS", "J", "0");
-        m.agregarNodoHijo("CONOCIDOS", "K", "1");
-        m.agregarNodoHijo("CONOCIDOS", "Z", "2");
+        m.agregarNodoHijo("CONOCIDOS", "I", "luis");
+        m.agregarNodoHijo("CONOCIDOS", "J", "arturo");
+        m.agregarNodoHijo("CONOCIDOS", "K", "diaz");
+        m.agregarNodoHijo("CONOCIDOS", "Z", "hinojosa");
     }
 
     private void paneles()
@@ -90,16 +92,15 @@ public class Ventana extends JFrame
         a.setFont(new Font("Arial", 1, 20)); //Cambiar la fuente del texto
         panel.add(a);                        //Agregar al panel
 
-        JLabel b = new JLabel();             //Crear etiqueta
-        b.setText("Emisor");
-        b.setBounds(10, 40, 100, 20);         //Posicion y tamaño
-        b.setHorizontalAlignment(SwingConstants.CENTER);
-        b.setForeground(Color.BLACK);        //Color de la letra
-        b.setOpaque(true);                   //Fondo de la etiqueta
-        b.setBackground(Color.WHITE);        //Color del fondo
-        b.setFont(new Font("Arial", 1, 20)); //Cambiar la fuente del texto
-        panel.add(b);                        //Agregar al panel
-
+//        JLabel b = new JLabel();             //Crear etiqueta
+//        b.setText("Emisor");
+//        b.setBounds(10, 40, 100, 20);         //Posicion y tamaño
+//        b.setHorizontalAlignment(SwingConstants.CENTER);
+//        b.setForeground(Color.BLACK);        //Color de la letra
+//        b.setOpaque(true);                   //Fondo de la etiqueta
+//        b.setBackground(Color.WHITE);        //Color del fondo
+//        b.setFont(new Font("Arial", 1, 20)); //Cambiar la fuente del texto
+//        panel.add(b);                        //Agregar al panel
         JLabel c = new JLabel();             //Crear etiqueta
         c.setText("Receptor");
         c.setBounds(10, 70, 100, 20);         //Posicion y tamaño
@@ -123,7 +124,7 @@ public class Ventana extends JFrame
         {
             System.out.println("" + m.cGrupo[i]);
         }
-        
+
         JComboBox a = new JComboBox(m.cGrupo);
         a.setBounds(150, 10, 150, 20);
         panel.add(a);
@@ -136,7 +137,7 @@ public class Ventana extends JFrame
                 {
                     grupo = (String) a.getSelectedItem();
                     System.out.println("" + grupo);
-                    comboBoxEmisor(grupo);
+                    comboBoxReceptor(grupo, "");
                 }
             }
         };
@@ -144,35 +145,34 @@ public class Ventana extends JFrame
         a.addItemListener(oyente);
     }
 
-    private void comboBoxEmisor(String input)
-    {
-        m.mostrarEmisor1(input);
-        JComboBox b = new JComboBox(m.cEmisor);
-        b.setBounds(150, 40, 150, 20);
-        panel.add(b);
-        ItemListener oyente = new ItemListener()
-        {
-            @Override
-            public void itemStateChanged(ItemEvent ie)
-            {
-                if (ie.getStateChange() == ItemEvent.SELECTED)
-                {
-                    emisor = (String) b.getSelectedItem();
-                    comboBoxReceptor(grupo, emisor);
-                }
-            }
-        };
-
-        b.addItemListener(oyente);
-    }
-
+//    private void comboBoxEmisor(String input)
+//    {
+//        m.mostrarEmisor1(input);
+//        JComboBox b = new JComboBox(m.cEmisor);
+//        b.setBounds(150, 40, 150, 20);
+//        panel.add(b);
+//        ItemListener oyente = new ItemListener()
+//        {
+//            @Override
+//            public void itemStateChanged(ItemEvent ie)
+//            {
+//                if (ie.getStateChange() == ItemEvent.SELECTED)
+//                {
+//                    emisor = (String) b.getSelectedItem();
+//                    comboBoxReceptor(grupo, emisor);
+//                }
+//            }
+//        };
+//
+//        b.addItemListener(oyente);
+//    }
     private void comboBoxReceptor(String inputA, String inputB)
     {
+        Principal3 p = new Principal3();
         m.mostrarReceptor1(inputA, inputB);
         JComboBox c = new JComboBox(m.cReceptor);
         c.setBounds(150, 70, 150, 20);
         panel.add(c);
-        receptor = (String) c.getSelectedItem();
         ItemListener oyente = new ItemListener()
         {
             @Override
@@ -181,6 +181,31 @@ public class Ventana extends JFrame
                 if (ie.getStateChange() == ItemEvent.SELECTED)
                 {
                     receptor = (String) c.getSelectedItem();
+//                    System.out.println("7. " + receptor);
+                    botonFiltrar(receptor);
+                    p.contacto(receptor);
+//                    receptor = "";
+                }
+            }
+        };
+        c.addItemListener(oyente);
+    }
+
+    private void comboBoxFecha(String[] r)
+    {
+        JComboBox c = new JComboBox(r);
+        c.setBounds(150, 130, 150, 20);
+        panel.add(c);
+//        receptor = (String) c.getSelectedItem();
+        ItemListener oyente = new ItemListener()
+        {
+            @Override
+            public void itemStateChanged(ItemEvent ie)
+            {
+                if (ie.getStateChange() == ItemEvent.SELECTED)
+                {
+                    fecha = (String) c.getSelectedItem();
+                    botonEjecutar(fecha, receptor);
                 }
             }
         };
@@ -188,11 +213,50 @@ public class Ventana extends JFrame
         c.addItemListener(oyente);
     }
 
-    private void boton()
+    private void botonFiltrar(String contacto)
+    {
+        Principal3 p = new Principal3();
+
+        JButton a = new JButton();
+        a.setText("Filtrar");
+        a.setBounds(100, 100, 150, 20);
+        a.setEnabled(true);
+        a.setMnemonic('a');                    //Establecemos ALT + A
+        panel.add(a);
+        
+        System.out.println("6. " + contacto);
+        
+        ActionListener oyente;
+        oyente = new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent ae)
+            {
+                String[] r;
+                if (receptor != null)
+                {
+                    r = p.contacto(receptor);
+                    for (int i = 0; i < r.length; i++)
+                    {
+//                        System.out.println("*** " + r[i]);
+                    }
+                    comboBoxFecha(r);
+                } else
+                {
+                    System.out.println("Inserte receptor");
+                }
+
+            }
+        };
+
+        a.addActionListener(oyente);
+    }
+
+    private void botonEjecutar(String fecha, String receptor)
     {
         JButton a = new JButton();
-        a.setText("Buscar");
-        a.setBounds(100, 100, 150, 20);
+        a.setText("Mostrar");
+        a.setBounds(100, 200, 150, 20);
         a.setEnabled(true);
         a.setMnemonic('a');                    //Establecemos ALT + A
         panel.add(a);
@@ -202,7 +266,13 @@ public class Ventana extends JFrame
             @Override
             public void actionPerformed(ActionEvent ae)
             {
-                textArea(grupo + "\n" + emisor + "\n" + receptor);
+                System.out.println("" + fecha + " " + emisor + " " + receptor);
+                if(fecha != null || receptor != null){
+                    p2.Principal2.main(fecha, receptor);
+                } else {
+                    System.out.println("Complete los datos");
+                }
+                
             }
         };
 

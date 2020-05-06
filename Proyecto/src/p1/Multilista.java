@@ -228,9 +228,8 @@ public class Multilista
 
     public void mostrarReceptor()
     {
-        int i = 0;
-        cReceptor[i] = "Elija un emisor";
-        i++;
+        int i = 1;
+       
         try
         {
             NodoPadre np = INICIO;
@@ -261,7 +260,7 @@ public class Multilista
         System.out.println(" - " + np.getGrupo());
         NodoHijo nodoHijo = np.getAbajo();
 
-        int i = 0;
+        int i = 1;
 
         if (nodoHijo != null)
         {
@@ -278,6 +277,7 @@ public class Multilista
 
                     while (nodoHijo != null)
                     {
+                        cReceptor[0] = String.valueOf("Elija un contacto");
                         cReceptor[i] = String.valueOf(nodoHijo.getReceptor());
                         System.out.println(" - " + cReceptor[i]);
                         nodoHijo = nodoHijo.getAbajo();
